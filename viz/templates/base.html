@@ -1,0 +1,65 @@
+<html>
+  <head>
+  	{% block head %}
+  	<title>Real time processing</title>
+  	{% endblock head %}
+
+    <script src="/static/js/jquery.js"></script>
+     <script src="/static/js/moment.js"></script>
+          <script src="/static/js/tweet_stream.js"></script>
+  <!-- Bootstrap -->
+  <script type="text/javascript" src="{{ url_for('static', filename='js/bootstrap.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+
+  <!-- Stylesheets -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css') }}">
+  </head>
+
+  <body>
+  <!-- header -->
+  <div class="container">
+    <div class="page-header">
+      <h1>Real Time Processing</h1>
+    </div>
+    <p class="lead">See awesome tweets!</p>
+    <div class='btn btn-default navbar-btn'>
+      <div id='refresh'>
+        Refresh
+      </div>
+    </div>
+    <div class='btn btn-default navbar-btn'>
+      <div id='map'>
+        Map
+      </div>
+    </div>
+     <!-- tweet stream -->
+    <div class='content'></div>
+
+    <!-- user timeline -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <h4 class="modal-title" id="myModalLabel"></h4>
+          </div>
+          <div class="modal-body">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- footer -->
+  <footer class="footer">
+    <div class="container">
+      <p class="text-muted">Brought to you by Zetla inc.</p>
+    </div>
+  </footer>
+
+  {% block content %}
+  {% endblock %}
+
+    </script>
+  </body>
+</html>

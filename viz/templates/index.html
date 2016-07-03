@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    <script>
+
+      $(document).ready(function(){
+
+        $('.content').replaceWith(displayNewestTweets());
+
+        $( "#refresh" ).click(function() {
+          $('.tweets').replaceWith(displayNewestTweets())
+        });
+
+        //display timestamp in human readable format
+        function displayTime(date) {
+          var m = moment(date);
+          return m.fromNow() + " (" + m.format("ddd, h:mm:ss a") + ")";
+        }
+
+        //display 10 newest tweets by time
+        function displayNewestTweets() {
+          var tweets = $('<div class="tweets">');
+          for (var i = streams.home.length-10; i < streams.home.length; i++) {
+            var tweet = streams.home[i];
+            var panel = createPanel(tweet.message, tweet.created_at, tweet.user);
+            $(tweets).append(panel);
+          }
+          return tweets;
+        }
+
+        //build a tweet panel
+        function createPanel(message, created_at, username) {
+          var panel = $('<div class="panel panel-default">');
+          if (username) {
+            var panelUserName = $('<a>',{
+                                'text': '@' + username,
+                                'href':'#',
+                                'class': 'home-tweets',
+                                'click': function(){displayModal(username) }
+                                });
+            var panelHeading = $('<div class="panel-heading">').append(panelUserName);
+            $(panel).append(panelHeading);
+          }
+          var panelBody = $('<div class="panel-body">').text(message);
+          var panelFooter = $('<div class="panel-footer">').text(' created ' + displayTime(created_at));
+          $(panel).append(panelBody);
+          $(panel).append(panelFooter);
+          return panel;
+        }
+
+        //Build the modal content
+        function displayModal(username) {
+
+          var user = $('<div id="myModalLabel">').text('@' + username+ '\'s timeline');
+
+          $('#myModalLabel').replaceWith(user);
+          $('.modal-body').replaceWith(displayTimeline(username));
+          $('#myModal').modal('show');
+        }
+
+        //given a username, display their timeline
+        function displayTimeline(username) {
+          var timeline = $('<div class="modal-body"></div>');
+          for (var i = 0; i < streams.users[username].length; i++) {
+            var tweet = streams.users[username][i];
+            var panel = createPanel(tweet.message, tweet.created_at);
+            $(timeline).append(panel);
+          }
+          return timeline;
+        }
+      });
+      $( "#map" ).click(function() {
+        window.location.href = "map";
+         $('.content').replaceWith(displayMap());
+
+         function displayMap()
+         {
+          window.location.href = "map";
+         }
+      });
+    </script>
+
+{% endblock content %}
